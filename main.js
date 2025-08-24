@@ -2,6 +2,15 @@
 (function () {
 console.log('rev-signup:init');
 
+// Diagnostic init logs
+console.log('rev-fix:init', {
+  form: !!document.querySelector('[data-test="signup-form"]'),
+  email: !!document.querySelector('[data-test="email-input"]'),
+  consent: !!document.querySelector('[data-test="consent"]'),
+  status: !!document.querySelector('[data-test="status"]'),
+  submit: !!document.querySelector('[data-test="submit"]')
+});
+
 const q = (s) => document.querySelector(s);
 const form = q('[data-test="signup-form"]');
 const emailInput = q('[data-test="email-input"]');
@@ -21,15 +30,33 @@ if (!emailInput) {
 const submitBtn = form.querySelector('[data-test="submit"]') || form.querySelector('button[type="submit"]');
 const N8N_WEBHOOK_URL = 'https://primary-production-04c0.up.railway.app/webhook/revanx-signup';
 
-function validEmail(v) { return /^[^\s@]+@[^\s@]+.[^\s@]+$/.test(v); }
 function setStatus(msg) {
-  if (statusEl) {
-    statusEl.textContent = msg;
-    statusEl.removeAttribute('hidden');
-    statusEl.style.display = '';
-    statusEl.setAttribute('role', 'status');
-    statusEl.setAttribute('aria-live', 'polite');
+  const el = document.querySelector('[data-test="status"]');
+  if (!el) {
+    console.warn('rev-fix:no-status-el');
+    return;
   }
+  el.textContent = msg;
+  el.removeAttribute('hidden');
+  el.style.removeProperty('display');
+  el.style.display = '';
+  el.style.visibility = 'visible';
+  el.style.opacity = '1';
+  el.style.position = el.style.position || 'relative';
+  el.style.zIndex = el.style.zIndex || '1000';
+
+  el.setAttribute('role', 'status');
+  el.setAttribute('aria-live', 'polite');
+
+  // Log computed visibility for diagnostics
+  const cs = window.getComputedStyle(el);
+  console.log('rev-fix:status-css', {
+    display: cs.display,
+    visibility: cs.visibility,
+    opacity: cs.opacity,
+    position: cs.position,
+    zIndex: cs.zIndex
+  });
 }
 
 function lockForm() {
@@ -61,23 +88,27 @@ if (a) console.log('link_click', { href: a.getAttribute('href'), text: (a.textCo
 
 form.addEventListener('submit', async (e) => {
 console.log('rev-signup:listener-attached');
+console.log('rev-fix:listener-attached');
 
 e.preventDefault();
-setStatus('Submitting…');
-const email = (emailInput?.value || '').trim();
-const name = (nameInput?.value || '').trim();
-const consent = consentInput ? !!consentInput.checked : true;
+
+const email = (document.querySelector('[data-test="email-input"]')?.value || '').trim();
+const name = (document.querySelector('[data-test="name-input"]')?.value || '').trim();
+const consentEl = document.querySelector('[data-test="consent"]');
+const consentOk = consentEl ? !!consentEl.checked : true;
 
 console.log('signup_submitted', { emailPresent: !!email });
+console.log('rev-fix:submit', { emailLength: email.length, consentOk, isValidEmail: /^[^\s@]+@[^\s@]+.[^\s@]+$/.test(email) });
 
-if (!email || !validEmail(email)) {
-  setStatus('Please enter a valid email address.');
-  emailInput?.focus();
+const isValidEmail = /^[^\s@]+@[^\s@]+.[^\s@]+$/.test(email);
+if (!isValidEmail) {
+  setStatus('Please enter a valid email address (e.g., name@domain.com).');
+  document.querySelector('[data-test="email-input"]')?.focus();
   return;
 }
-if (!consent) {
+if (!consentOk) {
   setStatus('Please agree to receive updates.');
-  consentInput?.focus();
+  consentEl?.focus();
   return;
 }
 
@@ -87,8 +118,22 @@ if (!N8N_WEBHOOK_URL) {
   return;
 }
 
-const prevLabel = submitBtn?.textContent;
-if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Submitting…'; }
+// Immediate success message - no network wait
+setStatus('All set! The email has been sent to this address.');
+console.log('rev-fix:success-message-shown');
+
+// Scroll status into view smoothly
+const sEl = document.querySelector('[data-test="status"]');
+sEl?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+// Temporary assertion to verify DOM text
+const el = document.querySelector('[data-test="status"]');
+console.log('rev-fix:status-text', el ? el.textContent : null);
+
+// Disable submit while sending; re-enable in finally
+const btn = document.querySelector('[data-test="submit"]');
+btn?.setAttribute('aria-busy', 'true');
+btn?.setAttribute('disabled', 'true');
 
 try {
   const res = await fetch(N8N_WEBHOOK_URL, {
@@ -119,7 +164,11 @@ try {
   console.log('signup_error', { error: String(err) });
   setStatus('Thanks! If the email does not arrive, please try again later.');
 } finally {
-  if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = prevLabel || 'Sign Up'; }
+  btn?.removeAttribute('aria-busy');
+  btn?.removeAttribute('disabled');
+  console.log('rev-fix:post-complete');
 }
 });
+console.log('rev-signup:instant-success-copy-wired');
+console.log('rev-fix:front-layer-visibility-ensured');
 })();

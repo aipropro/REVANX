@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REVANX - Coming Soon</title>
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/dxjrsm7o1/image/upload/v1755952337/Untitled_400_x_150_px_maqwng.png">
+    <meta name="description" content="REVANX is launching soon. Sign up to be notified when we go live.">
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-brand">
+                <a href="#" class="brand-link" data-analytics="link_click" data-link-type="brand">
+                    <img src="https://res.cloudinary.com/dxjrsm7o1/image/upload/v1755952337/Untitled_400_x_150_px_maqwng.png" alt="REVANX" class="brand-logo">
+                </a>
+            </div>
+            <div class="nav-links">
+                <a href="https://www.linkedin.com/showcase/revanx/about/?viewAsMember=true" target="_blank" rel="noopener" class="nav-link" data-analytics="link_click" data-link-type="social">
+                    <img src="https://res.cloudinary.com/dxjrsm7o1/image/upload/v1755950855/11_tinwou.svg" alt="LinkedIn" class="nav-icon">
+                </a>
+                <a href="https://x.com/REVANX__" target="_blank" rel="noopener" class="nav-link" data-analytics="link_click" data-link-type="social">
+                    <img src="https://res.cloudinary.com/dxjrsm7o1/image/upload/v1755950854/10_mwohar.svg" alt="X" class="nav-icon">
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main">
+        <section class="hero">
+            <div class="hero-content">
+                <h2 class="hero-title">REVANX Coming Soon</h2>
+                <p class="hero-subtitle">REVANX | More than automation. A smarter agent that learns every client.<br><br>REVANX studies each client's preferences and personality, then manages the entire journey. From scheduling to follow‑ups to negotiation. With the polish of an elite marketer and closer. Every conversation feels personal. Every step moves toward a signed deal.</p>
+                
+                <!-- Signup Form -->
+                <form class="signup-form" id="signupForm" novalidate data-test="signup-form">
+                    <div class="form-group">
+                        <label for="name" class="form-label">Name (Optional)</label>
+                        <input 
+                            type="text" 
+                            id="name" 
+                            name="name" 
+                            class="form-input" 
+                            placeholder="Enter your name"
+                            data-test="name-input"
+                        >
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email Address *</label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            class="form-input" 
+                            placeholder="Enter your email"
+                            required
+                            aria-describedby="email-error"
+                            data-test="email-input"
+                        >
+                        <div id="email-error" class="error-message" aria-live="polite"></div>
+                    </div>
+                    
+                    <div class="form-group checkbox-group">
+                        <label class="checkbox-label">
+                            <input
+                                type="checkbox"
+                                id="consent"
+                                name="consent"
+                                class="checkbox-input"
+                                required
+                                aria-describedby="consent-error"
+                                data-test="consent"
+                            >
+                            <span class="checkbox-custom"></span>
+                            <span class="checkbox-text">
+                                I agree to receive email updates and marketing communications. 
+                                <a href="#privacy" class="privacy-link" target="_blank" rel="noopener" data-analytics="link_click" data-link-type="privacy">Privacy Policy</a>
+                            </span>
+                        </label>
+                        <div id="consent-error" class="error-message" aria-live="polite"></div>
+                    </div>
+                    
+                    <button
+                        type="submit"
+                        class="submit-btn"
+                        id="submitBtn"
+                        data-test="submit"
+                    >
+                        <span class="btn-text">Become a Founding Member to get an early access benefits</span>
+                        <span class="btn-loader" aria-hidden="true"></span>
+                    </button>
+                </form>
+                
+                <!-- Status Messages -->
+                <div id="form-status" class="form-status" aria-live="polite" data-test="status"></div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="footer" id="contact">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3 class="footer-title">REVANX</h3>
+                <p class="footer-description">Building the future, one innovation at a time.</p>
+            </div>
+            
+            <div class="footer-links">
+                <div class="footer-section">
+                    <h4 class="footer-section-title">Contact</h4>
+                    <div class="contact-links">
+                        <a href="mailto:ain@revanx.aibzpro.com" class="contact-link">ain@revanx.aibzpro.com</a>
+                        <a href="mailto:yahia@revanx.aibzpro.com" class="contact-link">yahia@revanx.aibzpro.com</a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 class="footer-section-title">Legal</h4>
+                    <div class="legal-links">
+                        <a href="#privacy" class="legal-link" target="_blank" rel="noopener" data-analytics="link_click" data-link-type="legal">Privacy Policy</a>
+                        <a href="#terms" class="legal-link" target="_blank" rel="noopener" data-analytics="link_click" data-link-type="legal">Terms of Service</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p class="copyright">&copy; 2024 REVANX. All rights reserved.</p>
+            <p class="attribution">Revanx by <a href="https://aibzpro.com" target="_blank" rel="noopener" class="aibzpro-link">AIBZPRO</a></p>
+        </div>
+    </footer>
+
+    <script defer src="./js/main.js"></script>
+</body>
+</html>
